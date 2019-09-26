@@ -1,7 +1,7 @@
 const searchContainer = document.querySelector('.search-container');
 const gallery = document.getElementById('gallery');
 const card = document.querySelectorAll('.card');
-const modal = document.querySelectorAll('.modal')
+const modal = document.querySelectorAll('.modal');
 
 //------------------------------------------
 //  FETCH FUNCTIONS 
@@ -15,7 +15,7 @@ fetchData('https://randomuser.me/api/?results=12')
     .then(data => generateCards(data.results))
 
 //------------------------------------------
-//  HELPER FUNCTIONS
+//  FUNCTIONS
 //------------------------------------------
 
 function generateCards(data) {
@@ -34,6 +34,10 @@ function generateCards(data) {
     gallery.innerHTML = card;
 }
 
+function generateModal(data) {
+    const modalContainer = document.querySelectorAll('.card');
+
+}
 //------------------------------------------
 //  EVENT LISTENERS
 //------------------------------------------
