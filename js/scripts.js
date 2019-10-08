@@ -1,6 +1,7 @@
 const searchContainer = document.querySelector('.search-container');
 const gallery = document.getElementById('gallery');
 const modal = document.querySelectorAll('.modal');
+const card = document.querySelectorAll('.card')
 
 //------------------------------------------
 //  FETCH FUNCTIONS 
@@ -12,6 +13,7 @@ function fetchData(url) {
 
 fetchData('https://randomuser.me/api/?results=12')
     .then(data => generateCards(data.results))
+    .then(data => generateModal(data.results))
 
 //------------------------------------------
 //  FUNCTIONS
@@ -36,29 +38,31 @@ function generateCards(data) {
     return data;
 }
 
-function generateModal() {
-    const card = document.querySelectorAll('.card')
-    const modalContainer = card.querySelector('.modal-container');
-    const modalInfoContainer = card.querySelector('.modal-info-container');
-    const body = document.querySelector('body');
+function generateModal(data) {
+    const modalContainer = document.createElement('div');
+    modalContainer.className('modal-container');
+    modal.style.visibility = 'hidden';
 
-    card.addEventListener('click', () => {
-        body.append(`
-        <div class="modal-container">
-                <div class="modal">
-                    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                    <div class="modal-info-container">
-                        <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
-                        <h3 id="name" class="modal-name cap">name</h3>
-                        <p class="modal-text">email</p>
-                        <p class="modal-text cap">city</p>
-                        <hr>
-                        <p class="modal-text">(555) 555-5555</p>
-                        <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-                        <p class="modal-text">Birthday: 10/21/2015</p>
-                    </div>
-                </div>
-        `)
+    let userModal = '';
+
+    data.forEach(modalContainer => {
+        userModal += `
+            <div class="modal-container">
+                        <div class="modal">
+                            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                            <div class="modal-info-container">
+                                <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
+                                <h3 id="name" class="modal-name cap">name</h3>
+                                <p class="modal-text">email</p>
+                                <p class="modal-text cap">city</p>
+                                <hr>
+                                <p class="modal-text">(555) 555-5555</p>
+                                <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
+                                <p class="modal-text">Birthday: 10/21/2015</p>
+                            </div>
+                        </div>
+       `
     })
-    console.log('body')
+
+    modalContainer.innerHTML = userModal;
 }
