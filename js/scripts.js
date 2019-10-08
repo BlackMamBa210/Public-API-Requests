@@ -41,12 +41,12 @@ function generateCards(data) {
 function generateModal(data) {
     const modalContainer = document.createElement('div');
     modalContainer.className('modal-container');
-    modal.style.visibility = 'hidden';
+    modalContainer.style.visibility = 'hidden';
 
     let userModal = '';
-
-    data.forEach(modalContainer => {
-        userModal += `
+    modalContainer.on('click', function() {
+        data.forEach(modalContainer => {
+            userModal += `
             <div class="modal-container">
                         <div class="modal">
                             <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -62,7 +62,8 @@ function generateModal(data) {
                             </div>
                         </div>
        `
-    })
+        })
+    });
 
     modalContainer.innerHTML = userModal;
 }
