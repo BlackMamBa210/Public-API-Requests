@@ -81,4 +81,5 @@ function generateModal(data) {
         });
     }
     return data;
+    console.log(cards[i])
 }
