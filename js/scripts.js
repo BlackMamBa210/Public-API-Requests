@@ -1,15 +1,26 @@
 const searchContainer = document.querySelector('.search-container');
 const gallery = document.getElementById('gallery');
 const modal = document.querySelectorAll('.modal');
-const card = document.querySelectorAll('.card')
+const button = document.querySelector('button');
+
 
 //------------------------------------------
 //  FETCH FUNCTIONS 
 //------------------------------------------
-function fetchData(url) {
+async function fetchData(url) {
     return fetch(url)
         .then(response => response.json())
 }
+
+Promise.all([
+        fetchData('https://randomuser.me/api/?results=12')
+
+    ])
+    .then(data => {
+        const employeeList = data[0].results;
+        generateCards(employeeList);
+        generateModal(employeeList);
+    });
 
 fetchData('https://randomuser.me/api/?results=12')
     .then(data => generateCards(data.results))
@@ -34,36 +45,40 @@ function generateCards(data) {
     `).join('');
 
     gallery.innerHTML = card;
-    console.log(data);
     return data;
 }
 
-function generateModal(data) {
-    const modalContainer = document.createElement('div');
-    modalContainer.className('modal-container');
-    modalContainer.style.visibility = 'hidden';
-
-    let userModal = '';
-    modalContainer.on('click', function() {
-        data.forEach(modalContainer => {
-            userModal += `
-            <div class="modal-container">
-                        <div class="modal">
-                            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                            <div class="modal-info-container">
-                                <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
-                                <h3 id="name" class="modal-name cap">name</h3>
-                                <p class="modal-text">email</p>
-                                <p class="modal-text cap">city</p>
-                                <hr>
-                                <p class="modal-text">(555) 555-5555</p>
-                                <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-                                <p class="modal-text">Birthday: 10/21/2015</p>
-                            </div>
-                        </div>
-       `
-        })
+function closeModal() {
+    $('#modal-close-btn').click(() => {
+        $('.modal-container').slideUp(() => {
+            $('.modal-container').remove();
+        });
     });
+}
 
-    modalContainer.innerHTML = userModal;
+function generateModal(data) {
+    const cards = document.querySelectorAll('.card');
+    for (let i = 0; i < data; i++) {
+        cards[i].addEventListener('click', () => {
+            $('body').append(
+                `<div class="modal-container">
+              <div class="modal">
+                  <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                  <div class="modal-info-container">
+                      <img class="modal-img" src="${data[i].picture.large}" alt="profile picture">
+                      <h3 id="name" class="modal-name cap">${data[i].name.first} ${data[i].name.last}</h3>
+                      <p class="modal-text">${data[i].email}</p>
+                      <p class="modal-text cap">${data[i].location.city}</p>
+                      <hr>
+                      <p class="modal-text">${data[i].cell}</p>
+                      <p class="modal-text cap">${data[i].location.street}, ${data[i].location.city}, ${data[i].location.state} ${data[i].location.postcode}</p>
+                      <p class="modal-text">Birthday: ${dateFormatter(data[i].dob.date)}</p>
+                  </div>
+              </div>
+              `
+            );
+            closeModal();
+        });
+    }
+    return data;
 }
