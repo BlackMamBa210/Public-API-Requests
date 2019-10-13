@@ -57,29 +57,33 @@ function closeModal() {
 }
 
 function generateModal(data) {
-    const cards = document.querySelectorAll('.card');
-    for (let i = 0; i < data; i++) {
-        cards[i].addEventListener('click', () => {
-            $('body').append(
-                `<div class="modal-container">
-              <div class="modal">
-                  <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                  <div class="modal-info-container">
-                      <img class="modal-img" src="${data[i].picture.large}" alt="profile picture">
-                      <h3 id="name" class="modal-name cap">${data[i].name.first} ${data[i].name.last}</h3>
-                      <p class="modal-text">${data[i].email}</p>
-                      <p class="modal-text cap">${data[i].location.city}</p>
-                      <hr>
-                      <p class="modal-text">${data[i].cell}</p>
-                      <p class="modal-text cap">${data[i].location.street}, ${data[i].location.city}, ${data[i].location.state} ${data[i].location.postcode}</p>
-                      <p class="modal-text">Birthday: ${dateFormatter(data[i].dob.date)}</p>
-                  </div>
-              </div>
-              `
-            );
-            closeModal();
+    const card = document.querySelectorAll('.card')
+    const modalContainer = document.createElement('div');
+    const modalInfoContainer = document.createElement('div');
+    const body = document.querySelector('body');
+
+    modalContainer.className = 'mdoal-container';
+    modalInfoContainer.className = 'modal-info-container';
+
+    card.forEach((data) => {
+        modalContainer.addEventListener('click', function() {
+            modalContainer.innerHTML
+            body.append(`
+        <div class="modal-container">
+                <div class="modal">
+                    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                    <div class="modal-info-container">
+                        <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
+                        <h3 id="name" class="modal-name cap">name</h3>
+                        <p class="modal-text">email</p>
+                        <p class="modal-text cap">city</p>
+                        <hr>
+                        <p class="modal-text">(555) 555-5555</p>
+                        <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
+                        <p class="modal-text">Birthday: 10/21/2015</p>
+                    </div>
+                </div>
+        `)
         });
-    }
-    return data;
-    console.log(cards[i])
+    })
 }
